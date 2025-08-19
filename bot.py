@@ -1,17 +1,14 @@
-from telegram.ext import Application, CommandHandler
+from telegram import Update
+from telegram.ext import ApplicationBuilder, CommandHandler, ContextTypes
 import os
 
-# Legge il token dalle variabili d'ambiente su Render
-TOKEN = os.environ.get("BOT_TOKEN")
+TOKEN = os.getenv("BOT_TOKEN")
 
-# comando /start
-async def start(update, context):
-    await update.message.reply_text("Ciao! Sono il tuo bot 🚀 attivo 24/7 su Render")
+async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    await update.message.reply_text("Ciao! Sono online!")
 
-def main():
-    app = Application.builder().token(TOKEN).build()
-    app.add_handler(CommandHandler("start", start))
-    app.run_polling()
+app = ApplicationBuilder().token(TOKEN).build()
 
-if __name__ == "__main__":
-    main()
+app.add_handler(CommandHandler("start", start))
+
+app.run_polling()
